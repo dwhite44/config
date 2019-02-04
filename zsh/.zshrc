@@ -13,7 +13,7 @@ antigen bundle lein
 antigen bundle colored-man-pages
 antigen bundle docker
 
-# Syntax highlighting bundle.
+# zsh-users repo bundles
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 #Custom bundles
