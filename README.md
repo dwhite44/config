@@ -15,9 +15,13 @@ Preferences / General
 
 Requires:
 * zsh installed
-* oh-my-zsh installed
+* antigen installed
+  * Mac: brew install antigen
+  * CentOs: curl -L git.io/antigen > antigen.zsh > /opt/bin/antigen.zsh
+* ANTIGEN_PATH to be set in .zshenv (to antigen.zsh)
 * ZDOTDIR to be set in .zshenv (to zsh directory)
 
 ```
-ZDOTDIR=$HOME/.zsh
+ANTIGEN_PATH=/usr/local/share/antigen/antigen.zsh
+ZDOTDIR=$HOME/config/zsh
 ```

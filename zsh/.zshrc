@@ -1,17 +1,33 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+source $ANTIGEN_PATH
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
 export ZSH_CUSTOM="$ZDOTDIR/custom"
 
-ZSH_THEME="avit"
-plugins=(git lein colored-man-pages docker z cat direnv)
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle lein
+antigen bundle colored-man-pages
+antigen bundle docker
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+#Custom bundles
+antigen bundle $ZSH_CUSTOM/plugins/cat --no-local-clone
+antigen bundle $ZSH_CUSTOM/plugins/direnv --no-local-clone
+
+# Load the theme.
+antigen theme avit
+
+# Tell Antigen that you're done.
+antigen apply
 
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS='yyyy-mm-dd'
-
-source $ZSH/oh-my-zsh.sh
 
 PROMPT="
 %F{cyan}%T ${PROMPT}"
