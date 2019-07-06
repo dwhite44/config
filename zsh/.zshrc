@@ -17,6 +17,7 @@ antigen bundle docker
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 #Custom bundles
+antigen bundle $ZSH_CUSTOM/plugins/adb --no-local-clone
 antigen bundle $ZSH_CUSTOM/plugins/cat --no-local-clone
 antigen bundle $ZSH_CUSTOM/plugins/direnv --no-local-clone
 
