@@ -21,6 +21,7 @@ antigen bundle $ZSH_CUSTOM/plugins/adb --no-local-clone
 antigen bundle $ZSH_CUSTOM/plugins/cat --no-local-clone
 antigen bundle $ZSH_CUSTOM/plugins/direnv --no-local-clone
 antigen bundle $ZSH_CUSTOM/plugins/brew --no-local-clone
+antigen bundle $ZSH_CUSTOM/plugins/rbenv --no-local-clone
 
 # Load the theme.
 antigen theme avit
