@@ -6,7 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export ZSH_CUSTOM="$ZDOTDIR/custom"
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-plugins=(git lein colored-man-pages docker zsh-syntax-highlighting adb cat direnv brew rbenv)
+plugins=(git lein colored-man-pages docker zsh-syntax-highlighting dw_adb dw_cat dw_direnv dw_brew dw_rbenv)
 
 # Load the theme.
 ZSH_THEME='avit'
