@@ -14,7 +14,6 @@ Preferences / General
 ### Setup configuration directory
 
 Requires:
-* git clone --recursive to pull in submodules (or git pull --recurse-submodules)
 * zsh installed
 * ZDOTDIR to be set in .zshenv (to zsh directory)
 

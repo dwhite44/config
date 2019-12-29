@@ -1,27 +1,75 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Load the oh-my-zsh's library.
-export ZSH="$HOME/.oh-my-zsh"
-export ZSH_CUSTOM="$ZDOTDIR/custom"
-
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-plugins=(git lein colored-man-pages docker zsh-syntax-highlighting dw_adb dw_cat dw_direnv dw_brew dw_rbenv)
-
-# Load the theme.
-ZSH_THEME='avit'
-
-source $ZSH/oh-my-zsh.sh
+#####################################################################
+# Source custom scripts 
+#####################################################################
+. $ZDOTDIR/custom/adb.zsh
+. $ZDOTDIR/custom/brew_paths.zsh
+. $ZDOTDIR/custom/ccat.zsh
+. $ZDOTDIR/custom/direnv.zsh
+. $ZDOTDIR/custom/git.zsh
+. $ZDOTDIR/custom/rbenv.zsh
+. $ZDOTDIR/custom/zsh_syntax_highlighting.zsh
 
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS='yyyy-mm-dd'
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
 
-PROMPT="
-%F{cyan}%T ${PROMPT}"
+unsetopt global_rcs
 
-##################################
+# enable C-s forward search
+[[ $- == *i* ]] && stty -ixon
+
+
+# enable up down history and place cursor at end of text
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+# initialize comoletion system, caching for 20 hours
+autoload -Uz compinit
+comp_files=(${ZDOTDIR}/.zcompdump(Nm-20))
+if (( $#comp_files )); then
+    compinit -i -C
+else
+    compinit -i
+fi
+unset comp_files
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+#####################################################################
+# Setup Theme
+#####################################################################
+# set color to always so that output will not include color control characters
+# when redirecting or piping
+export CLICOLOR=1
+
+# set auto so that it colors to tty but not when redirecting and piping
+export GREP_OPTIONS='--color=auto'
+
+precmd () {
+    print -Pn "\e]2;%n | %~\a" # set title bar: username | pwd
+    RPROMPT="%F{yellow}$(git_status) %F{green}|%n%F{blue}|%m|%F{white}%T"
+}
+
+setopt prompt_subst
+PROMPT='
+%(?.%F{cyan}√.%F{red}?%?) %F{green}%20<...<%~%<<%f $ '
+
+
+#####################################################################
 # Source all files in .zshrc_local
-##################################
+# Scripts not in source-control. Machine-specific
+#####################################################################
 for f in $ZDOTDIR/.zshrc_local/*.sh; do
     . $f
 done 2> /dev/null
