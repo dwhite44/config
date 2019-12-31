@@ -40,7 +40,7 @@
 
 (use-package recentf
   :config
-  (setq recentf-save-file (concat user-emacs-directory ".recentf"))
+  (setq recentf-save-file (concat emacs-dir ".recentf"))
   (require 'recentf)
   (recentf-mode 1)
   (setq recentf-max-menu-items 40))
