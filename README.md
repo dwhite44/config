@@ -20,3 +20,10 @@ Requires:
 ```
 ZDOTDIR=$HOME/config/zsh
 ```
+
+### Emacs Config
+* Install Emacs
+* Create symbolic link for .emacs.d to emacs directory
+```
+ln -s ~/config/emacs ~/.emacs.d
+```
