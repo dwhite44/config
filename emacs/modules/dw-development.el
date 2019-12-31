@@ -39,3 +39,6 @@
   :ensure t
   :config
   (direnv-mode))
+
+;; Show Trailing whitespace
+(setq-default show-trailing-whitespace t)
