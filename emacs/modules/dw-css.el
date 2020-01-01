@@ -13,5 +13,11 @@
     :init
     (add-hook 'css-mode-hook 'css-mode-defaults))
 
-  (setq css-indent-offset 2))
+  (setq css-indent-offset 2)
+
+  (use-package scss-mode
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'scss-mode-hook 'css-mode-defaults)))
 
