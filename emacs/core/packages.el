@@ -11,8 +11,13 @@
 
 ;; version 27 is calling package-initialize by default as of 12/17/2018
 ;; see for details: https://github.com/jkitchin/scimax/issues/194
+
+(setq load-prefer-newer t)
 (if (version<= emacs-version "27")
   (package-initialize))
+(require 'auto-compile)
+(auto-compile-on-load-mode)
+(auto-compile-on-save-mode)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
