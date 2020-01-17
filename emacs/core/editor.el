@@ -42,3 +42,7 @@
 
 ;; Turn off cleaning up whitespace
 (setq prelude-clean-whitespace-on-save nil)
+
+;; Set to allow deleting current text and pasting from clipboard. Prevents
+;; the deleted text from being put into clipboard")
+(setq save-interprogram-paste-before-kill t)

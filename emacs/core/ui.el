@@ -27,3 +27,5 @@
 ;; set default font
 (custom-set-faces
  '(default ((t (:height 160 :family "Menlo")))))
+
+(setq inhibit-startup-screen t)
