@@ -4,6 +4,11 @@
 (use-package magit
   :ensure t
   :defer t)
+(use-package diff-hl
+  :ensure t
+  :defer t)
+(global-diff-hl-mode)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 ;; show the name of the current function definition in the modeline
 (require 'which-func)
