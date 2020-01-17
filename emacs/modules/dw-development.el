@@ -34,6 +34,8 @@
   :ensure t
   :defer t)
 
+(show-paren-mode 1)
+
 ;; Direnv
 (use-package direnv
   :ensure t
