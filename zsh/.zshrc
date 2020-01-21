@@ -1,17 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-#####################################################################
-# Source custom scripts 
-#####################################################################
-. $ZDOTDIR/custom/adb.zsh
-. $ZDOTDIR/custom/brew_paths.zsh
-. $ZDOTDIR/custom/ccat.zsh
-. $ZDOTDIR/custom/direnv.zsh
-. $ZDOTDIR/custom/git.zsh
-. $ZDOTDIR/custom/rbenv.zsh
-. $ZDOTDIR/custom/zsh_syntax_highlighting.zsh
-
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 HIST_STAMPS='yyyy-mm-dd'
 HISTFILE=~/.zsh_history
