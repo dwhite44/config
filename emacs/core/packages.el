@@ -15,6 +15,14 @@
 (setq load-prefer-newer t)
 (if (version<= emacs-version "27")
   (package-initialize))
+
+;; For benchmarking load time. Uncomment lines below to allow the init
+;; process to be times. then look at times with
+;; benchmark-init/show-durations-tree
+;;(require 'benchmark-init)
+   ;; To disable collection of benchmark data after init is done.
+;;(add-hook 'after-init-hook 'benchmark-init/deactivate)
+
 (require 'auto-compile)
 (auto-compile-on-load-mode)
 (auto-compile-on-save-mode)
