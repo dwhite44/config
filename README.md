@@ -15,6 +15,9 @@ Preferences / General
 
 Requires:
 * zsh installed
+* Default shell set to use zsh. On Mac, go to Users & Groups,
+  right-click on user and go to Advanced options and set the
+  shell path to homebrew's zsh path
 * ZDOTDIR to be set in .zshenv (to zsh directory)
 * Set which modules to use in .zshenv
 
