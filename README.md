@@ -16,9 +16,19 @@ Preferences / General
 Requires:
 * zsh installed
 * ZDOTDIR to be set in .zshenv (to zsh directory)
+* Set which modules to use in .zshenv
 
 ```
 ZDOTDIR=$HOME/config/zsh
+
+export HAS_GIT=true
+# export HAS_ADB=true
+export HAS_BREW=true
+export HAS_BREW_CURL=true
+export HAS_CCAT=true
+export HAS_DIRENV=true
+# export HAS_RBENV=true
+export HAS_ZSH_SYNTAX_HIGHLIGHTING=true
 ```
 
 ### Emacs Config

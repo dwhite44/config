@@ -1,3 +1,5 @@
+# echo "zsh_syntax_highlighting.zsh running..."
+
 syntax_highlighting="/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 if [[ -f ${syntax_highlighting} ]]; then
