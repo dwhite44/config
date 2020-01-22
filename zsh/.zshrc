@@ -14,6 +14,19 @@ unsetopt global_rcs
 if (( ${+HAS_GIT} )); then . $ZDOTDIR/zshrc_scripts/git.zsh; fi
 if (( ${+HAS_BREW_CURL} )); then . $ZDOTDIR/zshrc_scripts/brew_curl.zsh; fi
 
+# initialize comoletion system, caching for 20 hours
+autoload -Uz compinit
+comp_files=(${ZDOTDIR}/.zcompdump(Nm-20))
+if (( $#comp_files )); then
+    compinit -i -C
+else
+    compinit -i
+fi
+unset comp_files
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 #####################################################################
 # Setup Theme
 #####################################################################

@@ -21,20 +21,6 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 
-# initialize comoletion system, caching for 20 hours Will only work on
-# login shells. move to .zshrc if that ever becomes an issue
-autoload -Uz compinit
-comp_files=(${ZDOTDIR}/.zcompdump(Nm-20))
-if (( $#comp_files )); then
-    compinit -i -C
-else
-    compinit -i
-fi
-unset comp_files
-
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-
 #####################################################################
 # Source all files in .zprofile_local
 # Scripts not in source-control. Machine-specific
