@@ -23,6 +23,7 @@ Requires:
 
 ```
 ZDOTDIR=$HOME/config/zsh
+ZSCRIPTS=$HOME/config/shell_scripts
 
 export HAS_GIT=true
 # export HAS_ADB=true

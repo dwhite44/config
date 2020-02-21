@@ -11,8 +11,8 @@ setopt appendhistory
 unsetopt global_rcs
 
 #Custom actions conditionally run on every shell
-if (( ${+HAS_GIT} )); then . $ZDOTDIR/zshrc_scripts/git.zsh; fi
-if (( ${+HAS_BREW_CURL} )); then . $ZDOTDIR/zshrc_scripts/brew_curl.zsh; fi
+if (( ${+HAS_GIT} )); then . $ZSCRIPTS/git.sh; fi
+if (( ${+HAS_BREW_CURL} )); then . $ZSCRIPTS/brew_curl.sh; fi
 
 # initialize comoletion system, caching for 20 hours
 autoload -Uz compinit
