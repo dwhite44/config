@@ -47,6 +47,7 @@
   :init
   (which-key-mode))
 
+(load "dw-vim.el")
 (load "dw-projectile.el")
 (load "dw-ivy.el")
 (load "dw-company.el")
