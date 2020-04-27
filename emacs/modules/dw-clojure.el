@@ -5,8 +5,12 @@
   :ensure t
   :defer t)
 
+(use-package flycheck-clj-kondo
+  :ensure t)
+
 (defun clojure-hook ()
   (rainbow-delimiters-mode +1))
+
 
 (use-package clojure-mode
   :ensure t
@@ -15,6 +19,7 @@
   (add-hook 'clojure-mode-hook 'subword-mode)
   (add-hook 'clojure-mode-hook 'clojure-hook)
   (require 'clojure-mode-extra-font-locking)
+  (require 'flycheck-clj-kondo)
   (add-hook 'clojure-mode-hook
             (lambda ()
               ;;(setq inferior-lisp-program "lein repl")

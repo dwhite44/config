@@ -35,6 +35,11 @@
 (setq sp-hybrid-kill-entire-symbol nil)
 (sp-use-paredit-bindings)
 
+;; flycheck for syntax checking
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 (use-package rainbow-delimiters
   :ensure t
   :defer t)
