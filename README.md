@@ -25,6 +25,10 @@ Requires:
 ZDOTDIR=$HOME/config/zsh
 ZSCRIPTS=$HOME/config/shell_scripts
 
+# If using Apple Silicon, uncomment
+# export HAS_ARM_CPU=true
+
+# Setting to false does not have any affect. Need to comment out for false
 export HAS_GIT=true
 # export HAS_ADB=true
 export HAS_BREW=true
