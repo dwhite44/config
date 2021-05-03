@@ -2,7 +2,6 @@
 # Source custom scripts
 #####################################################################
 if (( ${+HAS_ADB} )); then . $ZSCRIPTS/adb.sh; fi
-if (( ${+HAS_BREW} )); then . $ZSCRIPTS/brew.sh; fi
 if (( ${+HAS_BREW} )); then . $ZSCRIPTS/brew_paths.sh; fi
 if (( ${+HAS_CCAT} )); then . $ZSCRIPTS/ccat.sh; fi
 if (( ${+HAS_DIRENV} )); then . $ZSCRIPTS/direnv.sh; fi
