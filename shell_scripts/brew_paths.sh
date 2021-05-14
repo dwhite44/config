@@ -16,6 +16,11 @@ if [ $(arch) = "arm64" ]; then
     if [ -d "/opt/homebrew/opt/findutils/libexec/gnubin" ] ; then
         export PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH"
     fi
+
+    if [ -d "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk" ] ; then
+        source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+        source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+    fi
 else
     echo "Adding Brew paths for i386"
 
@@ -31,5 +36,10 @@ else
 
     if [ -d "/usr/local/opt/findutils/libexec/gnubin" ] ; then
         export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+    fi
+
+    if [ -d "/usr/loca/Caskroom/google-cloud-sdk/latest/google-cloud-sdk" ] ; then
+        source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+        source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
     fi
 fi
