@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This is a copy of the clj script with all exec calls removed
+
+JAVA_HOME="${JAVA_HOME:-/usr/local/opt/openjdk/libexec/openjdk.jdk/Contents/Home}" "/Users/39092/config/bin/clojure_noexec/clojure"  "$@"
