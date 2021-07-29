@@ -1,5 +1,8 @@
 ;; Setup ability to install packages
 
+;; Add to fix issue with refreshing packages failing to connect to melpa
+(custom-set-variables '(gnutls-algorithm-priority "normal:-vers-tls1.3"))
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
