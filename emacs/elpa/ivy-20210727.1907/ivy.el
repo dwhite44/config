@@ -4877,9 +4877,16 @@ You can also delete an element from history with \\[ivy-reverse-i-search-kill]."
   (delete-minibuffer-contents)
   (if (ivy-state-dynamic-collection ivy-last)
       (progn
-        (setf (ivy-state-dynamic-collection ivy-last) nil)
-        (setf (ivy-state-collection ivy-last)
-              (setq ivy--all-candidates ivy--old-cands)))
+        ;; By disabling `ivy-state-dynamic-collection', we lose the ability
+        ;; to clearly differentiate between ternary programmed completion
+        ;; functions and Ivy's unary dynamic collections (short of using
+        ;; `func-arity' or otherwise redesigning things).  So we must also
+        ;; update the dynamic binding of `minibuffer-completion-table' to no
+        ;; longer hold a dynamic collection.
+        (setq minibuffer-completion-table ivy--old-cands)
+        (setq ivy--all-candidates ivy--old-cands)
+        (setf (ivy-state-collection ivy-last) ivy--old-cands)
+        (setf (ivy-state-dynamic-collection ivy-last) nil))
     (setq ivy--all-candidates
           (ivy--filter ivy-text ivy--all-candidates))))
 
@@ -5231,11 +5238,16 @@ EVENT gives the mouse position."
         (delete cand ivy-marked-candidates)))
 
 (defun ivy--mark (cand)
-  (let ((marked-cand (concat ivy-mark-prefix cand)))
+  (let ((marked-cand (copy-sequence (concat ivy-mark-prefix cand))))
+    ;; Primarily for preserving `idx'.  FIXME: the mark
+    ;; prefix shouldn't become part of the candidate!
+    (add-text-properties 0 (length ivy-mark-prefix)
+                         (text-properties-at 0 cand)
+                         marked-cand)
     (setcar (member cand ivy--all-candidates)
             (setcar (member cand ivy--old-cands) marked-cand))
     (setq ivy-marked-candidates
-          (append ivy-marked-candidates (list marked-cand)))))
+          (nconc ivy-marked-candidates (list marked-cand)))))
 
 (defun ivy-mark ()
   "Mark the selected candidate and move to the next one.

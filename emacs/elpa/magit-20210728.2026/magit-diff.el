@@ -1111,6 +1111,9 @@ If no DWIM context is found, nil is returned."
                           (or current "HEAD")
                           atpoint))))
       (commit (cons 'commit (oref it value)))
+      ([file commit] (cons 'commit (oref (oref it parent) value)))
+      ([hunk file commit]
+       (cons 'commit (oref (oref (oref it parent) parent) value)))
       (stash (cons 'stash (oref it value)))
       (pullreq (forge--pullreq-range (oref it value) t))))))
 
@@ -1505,8 +1508,8 @@ The visited version depends on what changes the diff is about.
 In the file-visiting buffer also go to the line that corresponds
 to the line that point is on in the diff.
 
-Note that this command only works if point is inside a diff.  In
-other cases `magit-find-file' (which see) had to be used."
+Note that this command only works if point is inside a diff.
+In other cases `magit-find-file' (which see) has to be used."
   (interactive (list (magit-file-at-point t t) current-prefix-arg))
   (magit-diff-visit-file--internal file nil
                                    (if other-window
@@ -2213,23 +2216,20 @@ section or a child thereof."
       (when file (setq file (magit-decode-git-path file)))
       (magit-diff-insert-file-section
        (or file base) orig status nil nil nil long-status)))
+   ;; The files on this line may be ambigious due to whitespace.
+   ;; That's okay. We can get their names from subsequent headers.
    ((looking-at "^diff --\
-\\(?:\\(?1:git\\) \\(?:\\(?2:.+?\\) \\(?3:.+?\\)\\)?\
-\\|\\(?:cc\\|combined\\) \\(?4:.+\\)\\)\n")
+\\(?:\\(?1:git\\) \\(?:\\(?2:.+?\\) \\2\\)?\
+\\|\\(?:cc\\|combined\\) \\(?3:.+\\)\\)")
     (let ((status (cond ((equal (match-string 1) "git")        "modified")
                         ((derived-mode-p 'magit-revision-mode) "resolved")
                         (t                                     "unmerged")))
-          (orig (match-string 2))
-          (file (or (match-string 3) (match-string 4)))
-          (header (list (match-string 0)))
+          (orig nil)
+          (file (or (match-string 2) (match-string 3)))
+          (header (list (buffer-substring-no-properties
+                         (line-beginning-position) (1+ (line-end-position)))))
           (modes nil)
           (rename nil))
-      ;; `git-diff' ignores `--no-prefix' for new files and renames at least.
-      (when (and file orig
-                 (string-prefix-p "a/" orig)
-                 (string-prefix-p "b/" file))
-        (setq orig (substring orig 2))
-        (setq file (substring file 2)))
       (magit-delete-line)
       (while (not (or (eobp) (looking-at magit-diff-headline-re)))
         (cond
@@ -2250,7 +2250,7 @@ section or a child thereof."
           (setq status "new file"))
          ((looking-at "similarity index .+\n"))
          ((looking-at "dissimilarity index .+\n"))
-         ((looking-at "^index .+\n"))
+         ((looking-at "index .+\n"))
          ((looking-at "--- \\(.+?\\)\t?\n")
           (unless (equal (match-string 1) "/dev/null")
             (setq orig (match-string 1))))
@@ -2258,6 +2258,8 @@ section or a child thereof."
           (unless (equal (match-string 1) "/dev/null")
             (setq file (match-string 1))))
          ((looking-at "Binary files .+ and .+ differ\n"))
+         ;; TODO Use all combined diff extended headers.
+         ((looking-at "mode .+\n"))
          (t
           (error "BUG: Unknown extended header: %S"
                  (buffer-substring (point) (line-end-position)))))
@@ -2270,9 +2272,14 @@ section or a child thereof."
       (when orig
         (setq orig (magit-decode-git-path orig)))
       (setq file (magit-decode-git-path file))
-      ;; KLUDGE `git-log' ignores `--no-prefix' when `-L' is used.
-      (when (and (derived-mode-p 'magit-log-mode)
-                 (--first (string-match-p "\\`-L" it) magit-buffer-log-args))
+      ;; KLUDGE `git-diff' ignores `--no-prefix' for new files and renames at
+      ;; least.  And `git-log' ignores `--no-prefix' when `-L' is used.
+      (when (or (and file orig
+                     (string-prefix-p "a/" orig)
+                     (string-prefix-p "b/" file))
+                (and (derived-mode-p 'magit-log-mode)
+                     (--first (string-match-p "\\`-L" it)
+                              magit-buffer-log-args)))
         (setq file (substring file 2))
         (when orig
           (setq orig (substring orig 2))))

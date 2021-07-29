@@ -455,7 +455,7 @@ signal `magit-invalid-git-boolean'."
   (pcase (magit-git-output args)
     ((or "true"  "true\n")  t)
     ((or "false" "false\n") nil)
-    (output (signal 'magit-invalid-git-boolean output))))
+    (output (signal 'magit-invalid-git-boolean (list output)))))
 
 (defun magit-git-false (&rest args)
   "Execute Git with ARGS, returning t if it prints \"false\".
@@ -464,7 +464,22 @@ signal `magit-invalid-git-boolean'."
   (pcase (magit-git-output args)
     ((or "true"  "true\n")  nil)
     ((or "false" "false\n") t)
-    (output (signal 'magit-invalid-git-boolean output))))
+    (output (signal 'magit-invalid-git-boolean (list output)))))
+
+(defun magit-git-config-p (variable &optional default)
+  "Return the boolean value of the Git variable VARIABLE.
+VARIABLE has to be specified as a string.  Return DEFAULT (which
+defaults to nil) if VARIABLE is unset.  If VARIABLE's value isn't
+a boolean, then raise an error."
+  (let ((args (list "config" "--bool" "--default" (if default "true" "false")
+                    variable)))
+    (magit--with-refresh-cache (cons default-directory args)
+      (magit--with-temp-process-buffer
+        (let ((status (magit-process-git t args))
+              (output (buffer-substring (point-min) (1- (point-max)))))
+          (if (zerop status)
+              (equal output "true")
+            (signal 'magit-invalid-git-boolean (list output))))))))
 
 (defun magit-git-insert (&rest args)
   "Execute Git with ARGS, inserting its output at point.
@@ -597,11 +612,13 @@ call function WASHER with ARGS as its sole argument."
       (magit-git-items "config" arg "-z" "--get-all" key))))
 
 (defun magit-get-boolean (&rest keys)
-  "Return the boolean value of the Git variable specified by KEYS."
+  "Return the boolean value of the Git variable specified by KEYS.
+Also see `magit-git-config-p'."
   (let ((key (mapconcat 'identity keys ".")))
-    (if magit--refresh-cache
-        (equal "true" (car (last (magit-config-get-from-cached-list key))))
-      (equal (magit-git-str "config" "--bool" key) "true"))))
+    (equal (if magit--refresh-cache
+               (car (last (magit-config-get-from-cached-list key)))
+             (magit-git-str "config" "--bool" key))
+           "true")))
 
 (defun magit-set (value &rest keys)
   "Set the value of the Git variable specified by KEYS to VALUE."
@@ -1342,9 +1359,7 @@ to, or to some other symbolic-ref that points to the same ref."
            magit-buffer-revision)))
 
 (defun magit-branch-or-commit-at-point ()
-  (or (and magit-buffer-file-name
-           magit-buffer-refname)
-      (magit-section-case
+  (or (magit-section-case
         (branch (magit-ref-maybe-qualify (oref it value)))
         (commit (or (magit--painted-branch-at-point)
                     (let ((rev (oref it value)))
@@ -1358,6 +1373,8 @@ to, or to some other symbolic-ref that points to the same ref."
       (thing-at-point 'git-revision t)
       (when-let ((chunk (magit-current-blame-chunk 'addition t)))
         (oref chunk orig-rev))
+      (and magit-buffer-file-name
+           magit-buffer-refname)
       (and (derived-mode-p 'magit-stash-mode
                            'magit-merge-preview-mode
                            'magit-revision-mode)

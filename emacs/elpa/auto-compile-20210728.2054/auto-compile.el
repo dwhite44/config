@@ -5,8 +5,8 @@
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Homepage: https://github.com/emacscollective/auto-compile
 ;; Keywords: compile, convenience, lisp
-;; Package-Version: 20210615.1457
-;; Package-Commit: 0f3afc6b057f9c9a3b60966f36e34cb46008cf61
+;; Package-Version: 20210728.2054
+;; Package-Commit: 504863340fa82cf8aca785ad1f2a541be598c3d6
 
 ;; Package-Requires: ((emacs "25.1") (packed "3.0.3"))
 
@@ -220,6 +220,19 @@ from being processed.
 To inform users of such errors Auto-Compile instead beeps or
 flashes the screen; set this variable to nil to disable even
 that."
+  :group 'auto-compile
+  :type 'boolean)
+
+(defcustom auto-compile-native-compile nil
+  "Whether to asynchronously native compile files on save.
+
+On load this happens regardless of this option because loading
+byte-code triggers native compilation.  On save it is likely
+wasteful to native compile because one usually saves many times
+without reloading the (byte or native) compiled code even just
+once (evaluating the buffer is more useful during development
+because it results in better backtraces)."
+  :package-version '(auto-compile . "1.6.3")
   :group 'auto-compile
   :type 'boolean)
 
@@ -529,6 +542,13 @@ pretend the byte code file exists.")
                   (warning-minimum-level
                    (if auto-compile-display-buffer :warning :error)))
               (setq success (packed-byte-compile-file file))
+              (when (and success
+                         auto-compile-native-compile
+                         (featurep 'native-compile)
+                         (fboundp 'native-comp-available-p)
+                         (native-comp-available-p))
+                (let ((warning-minimum-level :error))
+                  (native-compile-async file)))
               (when (buffer-live-p buf)
                 (with-current-buffer buf
                   (kill-local-variable auto-compile-pretend-byte-compiled))))
