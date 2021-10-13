@@ -5,13 +5,13 @@
 
 (setq x-select-enable-clipboard t ;; makes killing/yanking interact with the clipboard
       x-select-enable-primary t  ;; recommended
-      
+
       ;; Save clipboard strings into kill ring before replacing them.
       ;; When one selects something in another program to paste it into Emacs,
       ;; but kills something in Emacs before actually pasting it,
       ;; this selection is gone unless this variable is non-nil
       save-interprogram-paste-before-kill t
-      
+
 
       apropos-do-all t ;; Shows all options when running apropos
 

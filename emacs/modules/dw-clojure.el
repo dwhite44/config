@@ -9,7 +9,8 @@
   :ensure t)
 
 (defun clojure-hook ()
-  (rainbow-delimiters-mode +1))
+  ;(rainbow-delimiters-mode +1)
+  (smartparens-global-mode 0))
 
 
 (use-package clojure-mode
@@ -56,38 +57,23 @@
   (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode)))
 
 ;; Parinfer
-(use-package parinfer
+(use-package parinfer-rust-mode
   :ensure t
-  :bind
-  (:map parinfer-mode-map
-        ("<tab>" . parinfer-smart-tab:dwim-right)
-        ("C-i" . parinfer--reindent-sexp)
-        ("C-M-i" . parinfer-auto-fix)
-        ("C-," . parinfer-toggle-mode)
-        :map parinfer-region-mode-map
-        ("C-i" . indent-for-tab-command))
-        ;("<tab>" . parinfer-smart-tab:dwim-right))
   :init
   (progn
-     (setq parinfer-extensions
-       '(defaults       ; should be included.
-         pretty-parens  ; different paren styles for different modes.
-         evil           ; If you use Evil.
-         ;; lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
-         ;;paredit        ; Introduce some paredit commands.
-         ;;smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-         smart-yank))   ; Yank behavior depend on mode.
-    (add-hook 'clojure-mode-hook #'parinfer-mode)
-    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (setq parinfer-rust-auto-download t)
+    ; Yank behavior depend on mode.
+    (add-hook 'clojure-mode-hook #'parinfer-rust-mode)
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-rust-mode)
+    (add-hook 'common-lisp-mode-hook #'parinfer-rust-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-rust-mode)
     ;;(add-hook 'cider-repl-mode-hook #'parinfer-mode)
-    (add-hook 'lisp-mode-hook #'parinfer-mode)))
+    (add-hook 'lisp-mode-hook #'parinfer-rust-mode)))
 
 ;; Disable smartparens when in parinfer mode
-(defun parinfer-disable-smartparens ()
-    (smartparens-global-mode 0))
-(defun parinfer-enable-smartparens ()
-    (smartparens-global-mode 1))
-(add-hook 'parinfer-mode-enable-hook #'parinfer-disable-smartparens)
-(add-hook 'parinfer-mode-disable-hook #'parinfer-enable-smartparens)
+;(defun parinfer-disable-smartparens ()
+;    (smartparens-global-mode 0))
+;(defun parinfer-enable-smartparens ()
+;    (smartparens-global-mode 1))
+;(add-hook 'parinfer-mode-enable-hook #'parinfer-disable-smartparens)
+;(add-hook 'parinfer-mode-disable-hook #'parinfer-enable-smartparens)
