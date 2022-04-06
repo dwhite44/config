@@ -7,7 +7,7 @@
 (setq ring-bell-function 'ignore)
 
 ;; don't pop up font menu
-(global-set-key (kbd "s-t") '(lambda () (interactive)))
+(global-set-key (kbd "s-t") #'(lambda () (interactive)))
 
 ;; nice scrolling
 (setq scroll-margin 0
