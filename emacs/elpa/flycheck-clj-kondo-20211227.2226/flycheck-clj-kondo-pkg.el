@@ -1,0 +1,2 @@
+;;; Generated package description from flycheck-clj-kondo.el  -*- no-byte-compile: t -*-
+(define-package "flycheck-clj-kondo" "20211227.2226" "Add clj-kondo linter to flycheck" '((emacs "24.3") (flycheck "0.18")) :commit "35daaccc75b0367844b249a8cb05bf73bcebd52a" :authors '(("Michiel Borkent" . "michielborkent@gmail.com")) :maintainer '("Michiel Borkent" . "michielborkent@gmail.com") :url "https://github.com/borkdude/flycheck-clj-kondo")
