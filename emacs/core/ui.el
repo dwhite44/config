@@ -22,7 +22,9 @@
 (use-package atom-one-dark-theme
   :ensure t
   :defer t)
-(load-theme 'atom-one-dark t)
+
+;(load-theme 'atom-one-dark t)
+(load-theme 'tsdh-light t)
 
 ;; set default font
 (custom-set-faces
