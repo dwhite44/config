@@ -56,6 +56,35 @@
   (add-to-list 'auto-mode-alist '("\\.cljs$" . clojurescript-mode))
   (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode)))
 
+;; Clojure-lsp
+(use-package lsp-mode
+  :ensure t
+  :hook ((clojure-mode . lsp)
+         (clojurec-mode . lsp)
+         (clojurescript-mode . lsp))
+  :config
+  (dolist (m '(clojure-mode
+               clojurec-mode
+               clojurescript-mode
+               clojurex-mode))
+    (add-to-list 'lsp-language-id-configuration `(,m . "clojure"))))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-ui-mode)
+
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      treemacs-space-between-root-nodes nil
+      company-minimum-prefix-length 1)
+      ; lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
+      ; lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
+      
+
 ;; Parinfer
 (use-package parinfer-rust-mode
   :ensure t

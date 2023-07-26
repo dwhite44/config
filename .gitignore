@@ -9,6 +9,8 @@ zsh/.zcompcache/*
 ################################
 *~
 *.elc
+emacs/.cache
+emacs/workspace/.cache
 emacs/auto-save-list
 emacs/.recentf
 emacs/savehist
@@ -27,6 +29,7 @@ emacs/savefile/
 emacs/projectile.cache
 emacs/projectile-bookmarks.eld
 emacs/session*
+emacs/.lsp-session*
 emacs/.cask
 emacs/tramp
 emacs/transient
