@@ -1,3 +1,3 @@
-if [ -d "$HOME/dev/android/platform-tools" ] ; then
-    export PATH="$PATH:$HOME/dev/android/platform-tools"
+if [ -d "$HOME/dev/android/sdk/platform-tools" ] ; then
+    export PATH="$PATH:$HOME/dev/android/sdk/platform-tools"
 fi
